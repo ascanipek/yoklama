@@ -98,7 +98,7 @@
                                 <th>Gelmeyen Öğrenciler</th>
                                 <th>Toplam</th>
                                 <th>Katılım Oranı</th>
-                                <th>Yoklama Saati</th>
+                                <th>Yoklama</th>
                               </tr>
                             </thead>
                             <tbody>
