@@ -24,7 +24,21 @@ class Dashboard extends Controller
         $user = Auth::user();   
         // return 'Hi';
         if($user->type == 1){ // İdareci sayfası
-            return view('backend.dashboard')->with('user', $user->name);
+            $dayName= date('l'); 
+            $toDay = ''; 
+            if($dayName == 'Monday') {$toDay = 'mon'; $frontDay = "Pazartesi";}
+            elseif($dayName == 'Tuesday') {$toDay = 'tue'; $frontDay = "Salı";}
+            elseif($dayName == 'Wednesday') {$toDay = 'wen'; $frontDay = "Çarşamba";}
+            elseif($dayName == 'Thursday') {$toDay = 'thu'; $frontDay = "Perşembe";}
+            elseif($dayName == 'Friday') {$toDay = 'fri'; $frontDay = "Cuma";}
+            elseif($dayName == 'Saturday') {$toDay = 'dat'; $frontDay = "Cumartesi";}
+            elseif($dayName == 'Sunday') {$toDay = 'sun'; $frontDay = "Pazar";}
+            
+            $dersiVarmi = Schedule::where('teacher', $user->id)->where($toDay, 1)->exists();
+            if($dersiVarmi)
+                return view('choose')->with('user', $user->name);
+            else
+                return view('backend.dashboard')->with('user', $user->name);
         }
         elseif($user->type == 2){ // Öğretmen sayfası
             $dayName= date('l'); 
@@ -69,8 +83,55 @@ class Dashboard extends Controller
         }
         elseif($user->type == 0){
             return 'Hem Yönetici Hem Öğretmen Sayfası';
-        }
-               
+        }       
+    }
+
+    public function admin(){
+        $user = Auth::user(); 
+        return view('backend.dashboard')->with('user', $user->name);
+    }
+
+    public function frontEnd(){
+        $user = Auth::user();   
+        $dayName= date('l'); 
+        $toDay = ''; 
+        $classes = []; $branches = []; $classes = []; $lessons = [];
+        if($dayName == 'Monday') {$toDay = 'mon'; $frontDay = "Pazartesi";}
+        elseif($dayName == 'Tuesday') {$toDay = 'tue'; $frontDay = "Salı";}
+        elseif($dayName == 'Wednesday') {$toDay = 'wen'; $frontDay = "Çarşamba";}
+        elseif($dayName == 'Thursday') {$toDay = 'thu'; $frontDay = "Perşembe";}
+        elseif($dayName == 'Friday') {$toDay = 'fri'; $frontDay = "Cuma";}
+        elseif($dayName == 'Saturday') {$toDay = 'dat'; $frontDay = "Cumartesi";}
+        elseif($dayName == 'Sunday') {$toDay = 'sun'; $frontDay = "Pazar";}
+
+        $schedule = Schedule::where('teacher', $user->id)->where($toDay, 1)->get();
+        // $lesson = DB::table('lessons')->select('name')->where('id', $schedule[0]['lesson'])->first()->name;
+        // return $lesson;
+        $data = [];
+        for($i=0;$i<count($schedule);$i++){
+            $class = $schedule[$i]['class'];
+            $branch = $schedule[$i]['branch'];
+            $lesson = $schedule[$i]['lesson']; // ders adı için
+            $lessonId = $schedule[$i]['lesson']; // ders id si
+            $scheduleId = $schedule[$i]['id'];
+            $lesson = DB::table('lessons')->select('name')->where('id', $lesson)->first()->name; // ders adı
+            $info = DB::table('classes')->select('tur', 'department')->where('class', $class)->where('branch', $branch)->first();
+            $students = DB::table('students')->select('number')->where('class', $class)->where('branch', $branch)->orderBy('number', 'asc')->get();
+            $todayRolls = DB::table('rollcalls')->select('state')->where('class', $class)->where('branch', $branch)->where('schedule', $scheduleId)->whereDate('created_at', Carbon::today())->orderBy('number', 'asc')->get();
+            $data[$i] = [
+                'id' => $schedule[$i]['id'],
+                'class' => $class . ' / ' . $branch,
+                'lesson' => $lesson,
+                'lessonId' => $lessonId,
+                'alan' => $info->department,
+                'tur' => $info->tur,
+                'students' => $students,
+                'scheduleId' => $scheduleId,
+                'status' => $todayRolls,
+            ];
+        } 
+        // dd($data);
+        return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay);
     }
     
     public function getDateBase(Request $request){

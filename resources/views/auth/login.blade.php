@@ -68,8 +68,17 @@
             </div>
         </div>
         <div class="text-center text-white">
-            &copy; 2020 | <a class="text-white" href="http://turktelekomeml26.meb.k12.tr/" target="_blank">Türk Telekom M.T.A.L</a> | <a class="text-white" href="https://github.com/ascanipek">ascanipek</a>
+            Tüm Hakları Saklıdır. &copy; 2020
         </div>
+        <div class="text-center text-white">
+            <a class="text-white" href="http://turktelekomeml26.meb.k12.tr/" target="_blank">Türk Telekom M.T.A.L</a>
+        </div>
+        <div class="text-center text-white">
+            <span style="font-size: 10px;">Bilişim Teknolojileri Alanı</span>
+        </div>
+        {{-- <div class="text-center text-white">
+            <a class="text-white" style="font-size: 9px;" target="_blank" href="https://github.com/ascanipek">ascanipek</a>
+        </div> --}}
     </div>
 </div>
 @endsection

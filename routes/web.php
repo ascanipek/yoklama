@@ -22,6 +22,9 @@ use App\Http\Controllers\Dashboard;
 // });
 Route::get('/', [App\Http\Controllers\Dashboard::class, 'index'])->name('home');
 
+Route::get('/yoklama', [App\Http\Controllers\Dashboard::class, 'frontEnd'])->name('home')->middleware('auth');
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -29,6 +32,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/dashboard', [App\Http\Controllers\Dashboard::class, 'index'])->middleware('auth');
 Route::get('adminpanel/get-date-base',[App\Http\Controllers\Dashboard::class, 'getDateBase'])->name('getDateBase')->middleware('auth');
 Route::get('adminpanel/get-lesson-base',[App\Http\Controllers\Dashboard::class, 'getLessonBase'])->name('getLessonBase')->middleware('auth');
+Route::get('/adminpanel', [App\Http\Controllers\Dashboard::class, 'admin'])->middleware('auth');
 
 
 Route::get('/admin/add-class', [App\Http\Controllers\Dashboard::class, 'classes'])->middleware('auth');

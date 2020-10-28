@@ -4,7 +4,7 @@
 <div class="container">
     <div class="alert alert-light" role="alert">
         Hoşgeldiniz, <span class="text-success"> {{ Auth::user()->name }} </span>
-      </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-4 mb-3">
             <div class="card">
