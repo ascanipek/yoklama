@@ -31,7 +31,7 @@ class Dashboard extends Controller
             elseif($dayName == 'Wednesday') {$toDay = 'wen'; $frontDay = "Çarşamba";}
             elseif($dayName == 'Thursday') {$toDay = 'thu'; $frontDay = "Perşembe";}
             elseif($dayName == 'Friday') {$toDay = 'fri'; $frontDay = "Cuma";}
-            elseif($dayName == 'Saturday') {$toDay = 'dat'; $frontDay = "Cumartesi";}
+            elseif($dayName == 'Saturday') {$toDay = 'sat'; $frontDay = "Cumartesi";}
             elseif($dayName == 'Sunday') {$toDay = 'sun'; $frontDay = "Pazar";}
             
             $dersiVarmi = Schedule::where('teacher', $user->id)->where($toDay, 1)->exists();
@@ -49,7 +49,7 @@ class Dashboard extends Controller
             elseif($dayName == 'Wednesday') {$toDay = 'wen'; $frontDay = "Çarşamba";}
             elseif($dayName == 'Thursday') {$toDay = 'thu'; $frontDay = "Perşembe";}
             elseif($dayName == 'Friday') {$toDay = 'fri'; $frontDay = "Cuma";}
-            elseif($dayName == 'Saturday') {$toDay = 'dat'; $frontDay = "Cumartesi";}
+            elseif($dayName == 'Saturday') {$toDay = 'sat'; $frontDay = "Cumartesi";}
             elseif($dayName == 'Sunday') {$toDay = 'sun'; $frontDay = "Pazar";}
 
             $schedule = Schedule::where('teacher', $user->id)->where($toDay, 1)->get();
@@ -101,7 +101,7 @@ class Dashboard extends Controller
         elseif($dayName == 'Wednesday') {$toDay = 'wen'; $frontDay = "Çarşamba";}
         elseif($dayName == 'Thursday') {$toDay = 'thu'; $frontDay = "Perşembe";}
         elseif($dayName == 'Friday') {$toDay = 'fri'; $frontDay = "Cuma";}
-        elseif($dayName == 'Saturday') {$toDay = 'dat'; $frontDay = "Cumartesi";}
+        elseif($dayName == 'Saturday') {$toDay = 'sat'; $frontDay = "Cumartesi";}
         elseif($dayName == 'Sunday') {$toDay = 'sun'; $frontDay = "Pazar";}
 
         $schedule = Schedule::where('teacher', $user->id)->where($toDay, 1)->get();
