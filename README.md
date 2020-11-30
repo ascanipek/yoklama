@@ -1,48 +1,68 @@
+## TR
+
 ## Uygulama Hakkında
-Bu uygulama Covid-19 pandemi sürecinde sürdürülen uzaktan eğitim faaliyetlerinde öğrencilerin yoklamalarının alınması problemine çözüm üretmek için geliştirilmiştir. Uygulama [Laravel 8.11.2 Sürümü](https://laravel.com/) ile geliştirilmiştir.
+Bu uygulama Covid-19 pandemi sürecinde sürdürülen uzaktan eğitim faaliyetlerinde öğrencilerin yoklamalarının alınması problemine çözüm üretmek için geliştirilmiştir. Uygulama [Laravel 8.11.2 Sürümü](https://laravel.com/) ile geliştirilmiştir. Projede kullanılan diğer JS kütüphaneleri ayrıca aşağıda listelenmiştir.  
+
+Yönetim panelinde [laravel admin lte](https://github.com/jeroennoten/Laravel-AdminLTE) teması kullanılmıştır. 
 
 ## Kullanımı
+Uygulamayı git üzerinden klonladıktan sonra database migration işlemlerini yaptıktan sonra kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin .env dosyasında gerekli alanlara yazılmış olması gereklidir. 
 
+Uygulamayı yerelde çalıştırdıktan sonra hosting / sunucu üzerine göndererek deploy edebilirsiniz. 
 
+[İletişim](mailto: ascanipek@gmail.com)
 
+## Kullanılan Diğer Kütüphaneler
+- **[Bootstrap](https://getbootstrap.com/)**
+- **[jQuery](https://github.com/jquery/jquery)**
+- **[SweetAlert2](https://github.com/sweetalert2/sweetalert2)**
+- **[Login Form v3 by Colorlib](https://colorlib.com/wp/template/login-form-v3/)**
+- **[BootstrapToggle](https://www.bootstraptoggle.com/)**
+
+## Dağıtım
+
+Projeye geliştirme amaçlı katkı verirseniz çok memnun olurum.
+
+## Güvenlik Açıkları
+
+Bir güvenlik açığı keşfederseniz, lütfen iletişimde bulunan e-posta aracılığıyla bir e-posta gönderin.
+
+## Lisans
+
+Bu proje MIT altında lisanslanan açık kaynaklı bir yazılımdır: [MIT lisansı](https://opensource.org/licenses/MIT).. 
+
+## EN
 
 ## About
 
-This web application has been developed with the aim of keeping students' attendance in the distance education system, which has become widespread within the scope of covid-19 measures, and to facilitate taking necessary measures with participation statistics.
+This application has been developed to solve the problem of taking the attendance of students in the distance education activities carried out during the Covid-19 pandemic process. The application has been developed with [Laravel 8.11.2 Version] (https://laravel.com/). Other JS libraries used in the project are also listed below.
+
+The theme [laravel admin lte] (https://github.com/jeroennoten/Laravel-AdminLTE) is used in the administration panel.
 
 ## Using
 
+After cloning the application via git, you can start using it after database migration. Of course you must have a database and this database access information must be written in the required fields in the .env file.
 
+After running the application locally, you can deploy it by sending it on the hosting / server.
 
-## Laravel Sponsors
+[Contact] (mailto: ascanipek@gmail.com)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Other Libraries or Frameworks 
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+- **[Bootstrap](https://getbootstrap.com/)**
+- **[jQuery](https://github.com/jquery/jquery)**
+- **[SweetAlert2](https://github.com/sweetalert2/sweetalert2)**
+- **[Login Form v3 by Colorlib](https://colorlib.com/wp/template/login-form-v3/)**
+- **[BootstrapToggle](https://www.bootstraptoggle.com/)**
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+I would be very glad if you contribute to the project for development purposes.
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability, please send an email via the email in communication.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open source software licensed under MIT [MIT license](https://opensource.org/licenses/MIT).
