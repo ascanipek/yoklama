@@ -6,7 +6,7 @@ Bu uygulama Covid-19 pandemi sürecinde sürdürülen uzaktan eğitim faaliyetle
 Yönetim panelinde [laravel admin lte](https://github.com/jeroennoten/Laravel-AdminLTE) teması kullanılmıştır. 
 
 ## Kullanımı
-Uygulamayı git üzerinden klonladıktan sonra database migration işlemlerini yaptıktan sonra kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin .env dosyasında gerekli alanlara yazılmış olması gereklidir. 
+Uygulamayı git üzerinden klonlaayın ardından database migration işlemlerini yapın ve sonra kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin '.env' dosyasında gerekli alanlara yazılmış olması gereklidir. 
 
 Uygulamayı yerelde çalıştırdıktan sonra hosting / sunucu üzerine göndererek deploy edebilirsiniz. 
 [iletişim](mailto:ascanipek@gmail.com)
