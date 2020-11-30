@@ -1,3 +1,10 @@
+## Uygulama Hakkında
+Bu uygulama Covid-19 pandemi sürecinde sürdürülen uzaktan eğitim faaliyetlerinde öğrencilerin yoklamalarının alınması problemine çözüm üretmek için geliştirilmiştir. Uygulama [Laravel 8.11.2 Sürümü](https://laravel.com/) ile geliştirilmiştir.
+
+## Kullanımı
+
+
+
 
 ## About
 
