@@ -9,8 +9,7 @@ Yönetim panelinde [laravel admin lte](https://github.com/jeroennoten/Laravel-Ad
 Uygulamayı git üzerinden klonladıktan sonra database migration işlemlerini yaptıktan sonra kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin .env dosyasında gerekli alanlara yazılmış olması gereklidir. 
 
 Uygulamayı yerelde çalıştırdıktan sonra hosting / sunucu üzerine göndererek deploy edebilirsiniz. 
-
-[İletişim](mailto: ascanipek@gmail.com)
+[iletişim](mailto:ascanipek@gmail.com)
 
 ## Kullanılan Diğer Kütüphaneler
 - **[Bootstrap](https://getbootstrap.com/)**
@@ -37,7 +36,7 @@ Bu proje MIT altında lisanslanan açık kaynaklı bir yazılımdır: [MIT lisan
 
 This application has been developed to solve the problem of taking the attendance of students in the distance education activities carried out during the Covid-19 pandemic process. The application has been developed with [Laravel 8.11.2 Version] (https://laravel.com/). Other JS libraries used in the project are also listed below.
 
-The theme [laravel admin lte] (https://github.com/jeroennoten/Laravel-AdminLTE) is used in the administration panel.
+The theme [laravel admin lte](https://github.com/jeroennoten/Laravel-AdminLTE) is used in the administration panel.
 
 ## Using
 
@@ -45,7 +44,7 @@ After cloning the application via git, you can start using it after database mig
 
 After running the application locally, you can deploy it by sending it on the hosting / server.
 
-[Contact] (mailto: ascanipek@gmail.com)
+[Contact](mailto:ascanipek@gmail.com)
 
 ## Other Libraries or Frameworks 
 
