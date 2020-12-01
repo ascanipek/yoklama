@@ -30,6 +30,12 @@ Bir güvenlik açığı keşfederseniz, lütfen iletişimde bulunan e-posta arac
 
 Bu proje MIT altında lisanslanan açık kaynaklı bir yazılımdır: [MIT lisansı](https://opensource.org/licenses/MIT).. 
 
+## Uygulama Görselleri
+
+![Login](./public/img/appimg/ssLogin.png)  
+![Yoklama](./public/img/appimg/ssRollCalls.png)
+![Admin](./public/img/appimg/ssAdmin.png)
+
 ## EN
 
 ## About
