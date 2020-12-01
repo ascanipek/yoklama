@@ -36,12 +36,6 @@ Bu proje MIT altında lisanslanan açık kaynaklı bir yazılımdır: [MIT lisan
 ![Yoklama](./public/img/appimg/ssRollCalls.png)
 ![Admin](./public/img/appimg/ssAdmin.png)
 
-## Uygulama Görselleri
-
-![Login](./public/img/appimg/ssLogin.png)  
-![Yoklama](./public/img/appimg/ssRollCalls.png)
-![Admin](./public/img/appimg/ssAdmin.png)
-
 ## EN
 
 ## About
