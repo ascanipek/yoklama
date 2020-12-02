@@ -21,7 +21,8 @@ class CreateRollcallsTable extends Migration
             $table->string('branch')->default('');
             $table->integer('teacher',11);
             $table->integer('schedule',11);
-            $table->integer('lesson',11); 
+            $table->integer('lesson',11);
+            $table->timestamps(); 
         });
     }
 
