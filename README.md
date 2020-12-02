@@ -23,10 +23,7 @@ E-Mail: user@test.com
 Password: 12345678  
 
 Son olarak, 
-php artisan key:generate  
-
-E-Posta: user@test.com  
-Parola: 12345678  
+php artisan key:generate   
 
 Daha sonra kullanıcı ekleme silme işlemlerini yönetim panelinden yapabilirsiniz.
 
