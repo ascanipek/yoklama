@@ -8,7 +8,23 @@ Yönetim panelinde [laravel admin lte](https://github.com/jeroennoten/Laravel-Ad
 ## Kullanımı
 Uygulamayı git üzerinden klonlayın ardından database migration işlemlerini yapın ve sonra kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin '.env' dosyasında gerekli alanlara yazılmış olması gereklidir. 
 
-Migration (php artisan migrate) ve Seed (php artisan db:seed) yaptıktan sonra yönetici yetkisine sahip bir kullanıcı eklenecek bu kullanıcının bilgileri:  
+Migration (php artisan migrate) işlemini yaparak veritabanı tablolarını oluşturun,  
+
+Sonrasında, 
+
+php artisan db:seed --class=UserSeeder  
+php artisan db:seed --class=ClassSeeder  
+
+komutları ile users ve classes tablolarına örnek veriyi basın.  
+
+bunun ardından bir adet yönetici seviyesinde kullanıcı eklenecek bilgileri şu şekilde:    
+
+E-Mail: user@test.com  
+Password: 12345678  
+
+Son olarak, 
+php artisan key:generate  
+
 E-Posta: user@test.com  
 Parola: 12345678  
 
@@ -56,10 +72,19 @@ Clone the application via git, then do database migration and then you can start
 
 After running the application locally, you can deploy it by sending it on the hosting / server.  
 
-After doing Migration (php artisan migrate) and Seed (php artisan db:seed), a user with administrative authority will be added, the information of this user:  
+After doing Migration (php artisan migrate).
+And then, 
+
+php artisan db:seed --class=UserSeeder  
+php artisan db:seed --class=ClassSeeder  
+
+a user with administrative authority will be added, the information of this user:  
 
 E-Mail: user@test.com  
 Password: 12345678  
+
+Finally run, 
+php artisan key:generate  
 
 Later, you can add and delete users from the management panel.  
 
