@@ -15,14 +15,14 @@ class CreateRollcallsTable extends Migration
     {
         Schema::create('rollcalls', function (Blueprint $table) {
             $table->id();
-            $table->integer('number',11);
-            $table->integer('state',11);
+            $table->integer('number');
+            $table->integer('state');
             $table->string('class')->default('');
             $table->string('branch')->default('');
-            $table->integer('teacher',11);
-            $table->integer('schedule',11);
-            $table->integer('lesson',11);
-            $table->timestamps(); 
+            $table->integer('teacher');
+            $table->integer('schedule');
+            $table->integer('lesson');
+            $table->timestamps();
         });
     }
 
