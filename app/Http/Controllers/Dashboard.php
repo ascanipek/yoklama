@@ -697,7 +697,7 @@ class Dashboard extends Controller
                     for($j=0; $j<count($todayRolls); $j++){
                         if($todayRolls[$j]->number == $data[$i]['number']){
                             try{
-                                DB::table('rollcalls')->where('number', $data[$i]['number'])->whereDate('created_at', Carbon::today())->update(['state' => $data[$i]['state'], 'updated_at' => Carbon::now('Europe/Istanbul')->toDateTimeString()]);
+                                DB::table('rollcalls')->where('number', $data[$i]['number'])->where('schedule', $data[$i]['schedule'])->whereDate('created_at', Carbon::today())->update(['state' => $data[$i]['state'], 'updated_at' => Carbon::now('Europe/Istanbul')->toDateTimeString()]);
                             }
                             catch(Exception $e){
                                 return $e->getMessage();
