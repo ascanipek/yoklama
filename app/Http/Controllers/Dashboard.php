@@ -24,6 +24,7 @@ class Dashboard extends Controller
         $user = Auth::user();   
         // return 'Hi';
         if($user->type == 1){ // İdareci sayfası
+            //return view('backend.dashboard')->with('user', $user->name);
             $dayName= date('l'); 
             $toDay = ''; 
             if($dayName == 'Monday') {$toDay = 'mon'; $frontDay = "Pazartesi";}
@@ -83,9 +84,11 @@ class Dashboard extends Controller
         }
         elseif($user->type == 0){
             return 'Hem Yönetici Hem Öğretmen Sayfası';
-        }       
+        }
+               
     }
-
+    
+    
     public function admin(){
         $user = Auth::user(); 
         return view('backend.dashboard')->with('user', $user->name);
@@ -136,25 +139,56 @@ class Dashboard extends Controller
     
     public function getDateBase(Request $request){
         if($request->ajax()){
+            //return $request->date;
             $data = DB::table('rollcalls')->whereDate('created_at', $request->date)->get();
-            $schBuffer = '...';
+            //return $data;
+            $schBuffer = '';
             $extracted = [];
+            //for($i=0; i<count($data);$i++){
+            //    $here = 0; $notHere = 0; $total = 0;
+            //}
+            $totalRate = 0;
             foreach($data as $key => $item){
+                $here = 0; $notHere = 0; $total = 0;
                 if($schBuffer != $item->schedule){
                     $lesson = DB::table('lessons')->select('name')->where('id', $item->lesson)->first()->name;
                     $teacher = DB::table('users')->select('name')->where('id', $item->teacher)->first()->name;
                     $saveTime = Carbon::parse($item->created_at)->format('H:i');
                     $class = $item->class . '/' . $item->branch;
                     $buff = [];
+                    /*
                     foreach($data as $sub){
-                        if($sub->class == $item->class && $sub->branch == $item->branch){
+                        //$sub->class == $item->class && $sub->branch == $item->branch 
+                        if($sub->schedule == $item->schedule){
                             array_push($buff, $sub);
                         }
                     }
-                    $here = array_count_values(array_column($buff, 'state'))[1];
-                    $notHere = array_count_values(array_column($buff, 'state'))[0];
+                    */
+                    for($i=0; $i<count($data);$i++){
+                        if($data[$i]->schedule == $item->schedule){
+                            array_push($buff, $data[$i]);
+                        }
+                    }
+                    //return array_search('1', array_column($buff, 'state'));
+                    if(in_array('1', array_column($buff, 'state'))){
+                        $here = array_count_values(array_column($buff, 'state'))[1];
+                    }
+                    else
+                        $here = 0;
+                        
+                    if(in_array('0', array_column($buff, 'state'))){
+                        $notHere = array_count_values(array_column($buff, 'state'))[0];
+                    }
+                    else
+                        $notHere = 0;
+                    
                     $total = $here + $notHere;
-                    $rate = ($here / $total) * 100;
+                    if($here != 0)
+                        $rate = ($here / $total) * 100;
+                    else
+                        $rate = 0;
+                    
+                    $totalRate += $rate;
                     $row = [
                         'lesson' => $lesson,
                         'teacher' => $teacher,
@@ -168,7 +202,11 @@ class Dashboard extends Controller
                     $schBuffer = $item->schedule; // bunu sakın silme!
                 }
             }
-            return $extracted;
+            if(count($extracted) != 0)
+                $totalRate = floor($totalRate / count($extracted));
+            else
+                $totalRate = 0;
+            return [$extracted, $totalRate];
         }   
     }
 
@@ -185,9 +223,15 @@ class Dashboard extends Controller
                     $saveTime = Carbon::parse($item->created_at)->format('H:i');
                     $class = $item->class . '/' . $item->branch;
                     $buff = []; $gelmeyenler = [];
+                    /*
                     foreach($data as $sub){ // tüm diziden mevcut sınıf ayrılıyor
                         if($sub->class == $item->class && $sub->branch == $item->branch){
                             array_push($buff, $sub);
+                        }
+                    }*/
+                     for($i=0; $i<count($data);$i++){
+                        if($data[$i]->schedule == $item->schedule){
+                            array_push($buff, $data[$i]);
                         }
                     }
                     foreach($buff as $subb){
@@ -195,10 +239,29 @@ class Dashboard extends Controller
                             array_push($gelmeyenler, $subb->number);
                         }
                     }
-                    $here = array_count_values(array_column($buff, 'state'))[1]; // gelenlerin sayısı
-                    $notHere = array_count_values(array_column($buff, 'state'))[0]; // gelmeyenlerin sayısı
+                    
+                    //$here = array_count_values(array_column($buff, 'state'))[1]; // gelenlerin sayısı
+                    //$notHere = array_count_values(array_column($buff, 'state'))[0]; // gelmeyenlerin sayısı
+                    
+                    if(in_array('1', array_column($buff, 'state'))){
+                        $here = array_count_values(array_column($buff, 'state'))[1];
+                    }
+                    else
+                        $here = 0;
+                        
+                    if(in_array('0', array_column($buff, 'state'))){
+                        $notHere = array_count_values(array_column($buff, 'state'))[0];
+                    }
+                    else
+                        $notHere = 0;
+                    
                     $total = $here + $notHere; 
-                    $rate = ($here / $total) * 100; // katılım oranı
+                    
+                    //$rate = ($here / $total) * 100; // katılım oranı
+                    if($here != 0)
+                        $rate = ($here / $total) * 100;
+                    else
+                        $rate = 0;
                     $row = [
                         'lesson' => $lesson,
                         'teacher' => $teacher,
@@ -232,7 +295,12 @@ class Dashboard extends Controller
                 'department' => $request->dep,
                 'tur' => $request->tur
             );
-            $id = DB::table('classes')->insert($data);
+            $isExist = DB::table('classes')->where('class', $data['class'])->where('branch', $data['branch'])->exists();
+            if($isExist != 1)
+                $id = DB::table('classes')->insert($data);
+            else{
+                return 'var';
+            }
             if($id > 0){
                 echo 'Add Success';
             }
@@ -374,7 +442,7 @@ class Dashboard extends Controller
         if($isExist === null){
             return DB::table('users')->insert([
                 'name' => $request->name,
-                'type' => 2,
+                'type' => $request->yetki,
                 'branch' => $request->branch,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -411,6 +479,7 @@ class Dashboard extends Controller
                     ->update([
                         'name' => $request->name,
                         'branch' => $request->branch,
+                        'type' => $request->yetki,
                         'email' => $request->email,
                         'password' => Hash::make($request->password),
                     ]);
@@ -426,7 +495,14 @@ class Dashboard extends Controller
             $data = array(
                 'name' => $request->lesson,
             );
-            $id = DB::table('lessons')->insert($data);
+            
+            $isExist = DB::table('lessons')->where('name', $data['name'])->exists();
+            if($isExist != 1)
+                $id = DB::table('lessons')->insert($data);
+            else{
+                return 'var';
+            }
+            
             if($id > 0){
                 echo 'Add Success';
             }
@@ -621,7 +697,7 @@ class Dashboard extends Controller
                     for($j=0; $j<count($todayRolls); $j++){
                         if($todayRolls[$j]->number == $data[$i]['number']){
                             try{
-                                DB::table('rollcalls')->where('number', $data[$i]['number'])->whereDate('created_at', Carbon::today())->update(['state' => $data[$i]['state'], 'updated_at' => Carbon::now()->toDateTimeString()]);
+                                DB::table('rollcalls')->where('number', $data[$i]['number'])->whereDate('created_at', Carbon::today())->update(['state' => $data[$i]['state'], 'updated_at' => Carbon::now('Europe/Istanbul')->toDateTimeString()]);
                             }
                             catch(Exception $e){
                                 return $e->getMessage();

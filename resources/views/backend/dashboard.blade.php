@@ -82,6 +82,17 @@
                 </div>
             </div>
         </div>
+        <div id="info" class="card-body" style="display: none; padding: 0;">
+            <div class="callout callout-danger">
+                <h5 id="totalRateText"></h5>
+                <div class="progress" style="margin-bottom: 17px;">
+                    <div id="totalRate" class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row" id="result">
           
         </div>
@@ -216,9 +227,9 @@
                 },
                 success:function(data){
                     console.log(data)
-                    if(data.length != 0){
+                    if(data[0].length != 0){
                         html =''
-                        data.map(item => {
+                        data[0].map(item => {
                             html += '<div class="col-md-3 col-sm-6 col-12"><div class="info-box bg-danger"><span class="info-box-icon">'
                             html += item.class
                             html += '</span><div class="info-box-content"><span class="info-box-text">'+ item.lesson +'</span><span style="font-size:12px;" class="info-box-text">'+ item.teacher + ' - ' + item.saveTime  +'</span><span class="info-box-number">'
@@ -232,9 +243,20 @@
                         // });
                         $('#res').css('visibility', 'hidden')
                         $('#tableResult').css('visibility', 'hidden')
+                        $('#info').css('display', 'block')
                         $("#result").fadeOut(300, function() {
                             $(this).html(html).fadeIn(300);
                         });
+                        $("#totalRate").fadeOut(300, function() {
+                            $(this).attr("aria-valuenow", data[1]).fadeIn(300);;
+                            $(this).animate({
+                              width: data[1] + "%"
+                            }, 500);
+                        });
+                        $("#totalRateText").fadeOut(300, function() {
+                            $(this).html('%' + data[1] + ' Genel Katılım Oranı').fadeIn(300);
+                        });
+                        
                     }
                     else{
                         Do.fire({
