@@ -64,3 +64,4 @@ Route::get('adminpanel/fetch-assign',[App\Http\Controllers\Dashboard::class, 'fe
 Route::post('adminpanel/update-assign',[App\Http\Controllers\Dashboard::class, 'updateAssign'])->name('updateAssign')->middleware('auth');
 
 Route::post('/set-rollcall',[App\Http\Controllers\Dashboard::class, 'setRollCall'])->name('setRollCall')->middleware('auth');
+Route::post('/get-stats',[App\Http\Controllers\Dashboard::class, 'getStats'])->name('getStats')->middleware('auth');

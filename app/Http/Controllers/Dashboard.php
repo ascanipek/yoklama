@@ -132,9 +132,30 @@ class Dashboard extends Controller
                 'scheduleId' => $scheduleId,
                 'status' => $todayRolls,
             ];
+
+            $lessonsAll = DB::table('schedules')
+                    ->join('lessons', 'schedules.lesson', '=', 'lessons.id')
+                    ->select(DB::raw('schedules.lesson,concat(schedules.class, "/", schedules.branch) as class, lessons.name, schedules.id'))
+                    // ->select('schedules.lesson', 'schedules.class', 'schedules.branch', 'lessons.name')
+                    ->where('teacher', $user->id)
+                    ->orderBy('class', 'asc')
+                    ->get();
         } 
-        // dd($data);
-        return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay);
+        // dd($lessonsAll);
+        return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay)->with('lessonsAll', $lessonsAll);
+    }
+
+    public function getStats(Request $request){
+        $user = Auth::user();
+        if($request->ajax()){
+            // return $request;
+            $stats = DB::table('rollcalls')
+                        ->select(DB::raw('number, round((sum(state) / (select count(distinct created_at) from rollcalls where schedule = 465)) * 100) as ortalama'))
+                        ->where('schedule', $request->sch)
+                        ->groupBy('number')
+                        ->get();
+            return $stats;
+        }
     }
     
     public function getDateBase(Request $request){
@@ -665,7 +686,7 @@ class Dashboard extends Controller
 
     public function setRollCall(Request $request){
         if($request->ajax()){
-            // return $request;
+            return $request;
             $call = $request->roll;
             $info = explode(' / ', $request->class);
             $class = $info[0]; $branch = $info[1];

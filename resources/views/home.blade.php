@@ -22,9 +22,21 @@
                         </div>  
                 </div>
             </div>
+            {{-- Raporlama --}}
+            <div class="card mt-2 card-dark">
+                <div class="card-header">
+                    <span style="float:left;">Raporlama</span>
+                </div>
+                <div class="card-body">
+                        <div class="list-group">
+                           <button class="btn btn-block btn-success" id="raporAl">Devamsızlık Raporu Al</button>
+                        </div>  
+                </div>
+            </div>
         </div>
         <div class="col-md-8">
-            <div class="card">
+            {{-- Yoklama için öğrenci liste/ tablosu checkboxlar da burada --}}
+            <div class="card" style="display: none;" id="yoklama">
                 <div class="card-header">
                     <span style="float: left;">Öğrenciler</span>
                     <span style="float: right" class="text-success" id="classHeader"></span>
@@ -38,25 +50,51 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($data[0]['students'] as $item)
-                                        <tr>
-                                            <td class="text-center">{{ $item->number }}</td>
-                                            <td class="text-center">
-                                                <input class="state" type="checkbox" data-toggle="toggle" data-index="{{ $item->number }}">
-                                            </td>
-                                        </tr>
-                                    @endforeach --}}
                                 </tbody>
                             </table>
                             <button class="btn btn-block btn-success" id="save" style="visibility: hidden">Kaydet</button>
-                            {{-- @foreach ($data[0]['students'] as $item)
-                                <a href="#" class="list-group-item list-group-item-action" id="students-{{ $item->number }}">
-                                    {{ $item->number }}
-                                </a>
-                            @endforeach --}}
+                </div>
+            </div>
+            {{-- Raporlama için ... --}}
+            <div class="card" style="display: none;" id="raporlama">
+                <div class="card-header">
+                    <span style="float: left;">Raporlama</span>
+                    <span style="float: right" class="text-success" id="classHeader"></span>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="dersler">Ders Seçin</label>
+                        <select class="form-control" id="dersler">
+                          <option value="0">Ders Seçin</option>
+                           @foreach ($lessonsAll as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->class }} - {{ $item->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-danger btn-block" id="getStats">İstatiskleri Getir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-2" id="statCard" style="display: none;">
+                <div class="card-body p-0">
+                    <table class="table" id="statable" style="display: none;">
+                        <thead>
+                          <tr>
+                            <th  class="text-center" scope="col">Numara</th>
+                            <th  class="text-center" scope="col">Derse Katılım Oranı</th>
+                            <th  class="text-center" scope="col">#</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 @endsection
@@ -124,6 +162,7 @@
         $(document).on('click', '#save', function(){
             gelenler = []
             roll = []
+            buff = []
             $("input:checkbox[name=yoklama]").each(function(){
                 // gelenler.push($(this).prop('checked'))
                 let num = $(this).attr('data-number')
@@ -134,7 +173,7 @@
                 ]
                 roll.push(buff)
             });
-            // console.log(gelenler)
+            console.log(roll)
             // $("input:checkbox[name=yoklama]:not(:checked)").each(function(){
             //     gelmeyenler.push($(this).attr('data-number'))
             // });
@@ -209,7 +248,10 @@
                     html += '<td class="text-center"> <input ' + isCheck + ' class="state" type="checkbox" name="yoklama" data-offstyle="danger" data-onstyle="success" data-toggle="toggle" data-width="100" data-number="' + students[count].number + '"></td>'
                 html += '</tr>'    
             }
-            $('tbody').html(html);
+            $('#raporlama').css('display', 'none');
+            $('#raporlama').css('display', 'none');
+            $('#yoklama').css('display', '');
+            $('#list > tbody').html(html);
             $('#save').attr('data-id',data[index].id)
             $('#save').css('visibility', 'visible');
             $('#classHeader').html(data[index].class + ' - ' + data[index].lesson)
@@ -219,5 +261,46 @@
             });
         }
         // $('.state').bootstrapToggle();
+
+        // $(document).on('click', '#raporAl', function(){
+        //     $('#yoklama').css('display', 'none');
+        //     $('#raporlama').css('display', '');
+        // })
+
+        // $(document).on('click', '#getStats', function(){
+        //     let sch = $('#dersler').val()
+        //     if(sch != 0){
+        //         console.log(sch)
+        //         $.ajax({
+        //             url: "{{ route('getStats') }}",
+        //             method: 'post',
+        //             data:{
+        //                 sch: sch,
+        //                 _token: _token
+        //             },
+        //             success: function(data){
+        //                 console.log(data)
+        //                 html = ''
+        //                 data.map((item, index) => {
+        //                     html += '<tr>';
+        //                         html += '<td class="text-center">' + item.number + '</td>';
+        //                         html += '<td><div class="progress" style="height: 19px; font-size: .9rem"><div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: ' + item.ortalama + '%" aria-valuenow="' + item.ortalama + '" aria-valuemin="0" aria-valuemax="100"> % ' + item.ortalama + ' </div></div></td>'
+        //                         html += '<td class="text-center text-success">% ' + item.ortalama + '</td>';
+        //                     html += '</tr>'   
+        //                 })
+        //                 $('#statable > tbody').html(html);
+        //                 $('#statable').css('display', '')
+        //                 $('#statCard').css('display', '')
+        //             }
+        //         })
+        //     }
+        //     else{
+        //         Do.fire({
+        //             icon: 'warning',
+        //             title: 'Lütfen ders seçin',   
+        //         })
+        //     }
+        // })
+
     })
 </script>
