@@ -688,7 +688,6 @@ class Dashboard extends Controller
 
     public function setRollCall(Request $request){
         if($request->ajax()){
-            // return $request;Da
             $call = $request->roll;
             $info = explode(' / ', $request->class);
             $class = $info[0]; $branch = $info[1];

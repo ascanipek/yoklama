@@ -212,9 +212,9 @@
                     method: 'post',
                     data:{
                         name: name,
-                        branch: branch,teachers.blade.php
+                        branch: branch,
                         email: email,
-                        yetki: 2,
+                        yetki: 2, // for std user: 2, for admin user: 1,
                         password: password,
                         _token: _token
                     },
