@@ -67,15 +67,18 @@ The theme [laravel admin lte](https://github.com/jeroennoten/Laravel-AdminLTE) i
 
 ## Using
 
-Clone the application via git, then do database migration and then you can start using it. Of course, you must have a database and this database access information must be written in the required fields in the '.env' file.
+After clone the application via git, run the "composer install" command and run the "php artisan migrate" command for database migration, then you can start using it. Of course, you must have a database and this database access information must be written in the required fields in the '.env' file.
 
 After running the application locally, you can deploy it by sending it on the hosting / server.  
 
-After doing Migration (php artisan migrate).
+- composer install
+
+- After doing Migration (php artisan migrate).
+
 And then, 
 
-php artisan db:seed --class=UserSeeder  
-php artisan db:seed --class=ClassSeeder  
+- php artisan db:seed --class=UserSeeder  
+- php artisan db:seed --class=ClassSeeder  
 
 a user with administrative authority will be added, the information of this user:  
 
@@ -83,7 +86,7 @@ E-Mail: user@test.com
 Password: 12345678  
 
 Finally run, 
-php artisan key:generate  
+- php artisan key:generate  
 
 Later, you can add and delete users from the management panel.  
 
