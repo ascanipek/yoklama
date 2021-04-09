@@ -212,8 +212,9 @@
                     method: 'post',
                     data:{
                         name: name,
-                        branch: branch,
+                        branch: branch,teachers.blade.php
                         email: email,
+                        yetki: 2,
                         password: password,
                         _token: _token
                     },
@@ -222,7 +223,7 @@
                             console.log(data)
                             Do.fire({
                                 toast: false,
-                                position: 'center',
+                                position: 'center', 
                                 icon: 'warning',
                                 text: 'E-Posta adresi veritabanında kayıtlı!',   
                             })

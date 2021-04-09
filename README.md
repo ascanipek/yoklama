@@ -6,14 +6,16 @@ Bu uygulama Covid-19 pandemi sürecinde sürdürülen uzaktan eğitim faaliyetle
 Yönetim panelinde [laravel admin lte](https://github.com/jeroennoten/Laravel-AdminLTE) teması kullanılmıştır. 
 
 ## Kullanımı
-Uygulamayı git üzerinden klonlayın ardından database migration işlemlerini yapın ve sonra kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin '.env' dosyasında gerekli alanlara yazılmış olması gereklidir. 
+Uygulamayı git üzerinden klonlayın ardından, "composer install" komutunu çalıştırın ve database migration işlemleri için "php artisan migrate" komutunu çalıştırın, sonrasında kullanmaya başlayabilirsiniz. Tabi ki bir veritabanınızın olması ve bu veritabanı erişim bilgilerinin '.env' dosyasında gerekli alanlara yazılmış olması gereklidir.
 
-Migration (php artisan migrate) işlemini yaparak veritabanı tablolarını oluşturun,  
+- composer install
+
+- Migration (php artisan migrate) işlemini yaparak veritabanı tablolarını oluşturun,  
 
 Sonrasında, 
 
-php artisan db:seed --class=UserSeeder  
-php artisan db:seed --class=ClassSeeder  
+- php artisan db:seed --class=UserSeeder  
+- php artisan db:seed --class=ClassSeeder  
 
 komutları ile users ve classes tablolarına örnek veriyi basın.  
 
@@ -23,7 +25,7 @@ E-Mail: user@test.com
 Password: 12345678  
 
 Son olarak, 
-php artisan key:generate   
+- php artisan key:generate   
 
 Daha sonra kullanıcı ekleme silme işlemlerini yönetim panelinden yapabilirsiniz.
 

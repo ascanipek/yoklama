@@ -454,12 +454,14 @@ class Dashboard extends Controller
         // $data = [
         //     'name' => $request->name,
         //     'type' => 2,
-        //     'branch' => $request->branch,
+        //     'branch' => $request->branch, 
         //     'email' => $request->email,
         //     'password' => Hash::make($request->password),
         // ];
         // return $request->branch;
+        
         $isExist = User::where('email', $request->email)->first();
+        
         if($isExist === null){
             return DB::table('users')->insert([
                 'name' => $request->name,
@@ -686,7 +688,7 @@ class Dashboard extends Controller
 
     public function setRollCall(Request $request){
         if($request->ajax()){
-            return $request;
+            // return $request;Da
             $call = $request->roll;
             $info = explode(' / ', $request->class);
             $class = $info[0]; $branch = $info[1];
