@@ -2,26 +2,31 @@
 <script src="//code.jquery.com/jquery-1.11.1.js"></script>
 @section('content')
 <div class="container">
-    <div class="alert alert-light" role="alert">
-        Hoşgeldiniz, <span class="text-success"> {{ Auth::user()->name }} </span>
-    </div>
+    <div class="alert alert-info" role="alert">
+        Merhaba, <span class="text-success"> {{ Auth::user()->name }} </span>
+      </div>
     <div class="row justify-content-center">
         <div class="col-md-4 mb-3">
             <div class="card">
                 <div class="card-header">
                     <span style="float:left;">Bu günkü dersleriniz</span>
-                    <span style="float: right; font-weight: 700; color: red;">{{ date('d.m.y') }} {{ $day }}</span>
+                    <span style="float: right; font-weight: 700; color: red;">{{ date('d.m.y') }} {{ $day ?? '' }}</span>
                 </div>
                 <div class="card-body">
-                        <div class="list-group">
-                            @foreach ($data as $item)
-                                <a href="#" class="list-group-item list-group-item-action lesson" data-index={{ $loop->index  }} id="lesson-{{ $item['id'] }}">
-                                    {{ $item['class'] }} - {{ $item['lesson'] }}
-                                </a>
-                            @endforeach
-                        </div>  
+                        @if(count($data ?? '') == 0)
+                            <div>Bugün dersiniz yok.</div>
+                        @else
+                            <div class="list-group">
+                                @foreach ($data ?? '' as $item)
+                                    <a href="#" class="list-group-item list-group-item-action lesson" data-index={{ $loop->index  }} id="lesson-{{ $item['id'] }}">
+                                        {{ $item['class'] }} - {{ $item['lesson'] }}
+                                    </a>
+                                @endforeach
+                            </div> 
+                        @endif
                 </div>
             </div>
+            
             {{-- Raporlama --}}
             <div class="card mt-2 card-dark">
                 <div class="card-header">
@@ -34,6 +39,7 @@
                 </div>
             </div>
         </div>
+      
         <div class="col-md-8">
             {{-- Yoklama için öğrenci liste/ tablosu checkboxlar da burada --}}
             <div class="card" style="display: none;" id="yoklama">
@@ -94,7 +100,8 @@
                 </div>
             </div>
         </div>
-
+      
+    
     </div>
 </div>
 @endsection
@@ -132,7 +139,7 @@
 
 
     $(document).ready(function(){
-        let data = {!! json_encode($data, JSON_HEX_TAG) !!}
+        let data = {!! json_encode($data ?? '', JSON_HEX_TAG) !!}
         console.log(data)
         let currentClass = ''
         let currentLesson = ''
@@ -162,7 +169,6 @@
         $(document).on('click', '#save', function(){
             gelenler = []
             roll = []
-            buff = []
             $("input:checkbox[name=yoklama]").each(function(){
                 // gelenler.push($(this).prop('checked'))
                 let num = $(this).attr('data-number')
@@ -244,12 +250,13 @@
                     else isCheck = ''
                 }
                 html += '<tr data-index="' + schedule + '">';
+                    html += '<td class="text-center">' + (count + 1) + '</td>';
                     html += '<td class="text-center">' + students[count].number + '</td>';
                     html += '<td class="text-center"> <input ' + isCheck + ' class="state" type="checkbox" name="yoklama" data-offstyle="danger" data-onstyle="success" data-toggle="toggle" data-width="100" data-number="' + students[count].number + '"></td>'
                 html += '</tr>'    
             }
             $('#raporlama').css('display', 'none');
-            $('#raporlama').css('display', 'none');
+            $('#statable').css('display', 'none');
             $('#yoklama').css('display', '');
             $('#list > tbody').html(html);
             $('#save').attr('data-id',data[index].id)
@@ -259,48 +266,49 @@
                 on: 'Var',
                 off: 'Yok',
             });
+            //$('.state').bootstrapToggle('on')
         }
         // $('.state').bootstrapToggle();
+        
+        $(document).on('click', '#raporAl', function(){
+            $('#yoklama').css('display', 'none');
+            $('#raporlama').css('display', '');
+        })
 
-        // $(document).on('click', '#raporAl', function(){
-        //     $('#yoklama').css('display', 'none');
-        //     $('#raporlama').css('display', '');
-        // })
-
-        // $(document).on('click', '#getStats', function(){
-        //     let sch = $('#dersler').val()
-        //     if(sch != 0){
-        //         console.log(sch)
-        //         $.ajax({
-        //             url: "{{ route('getStats') }}",
-        //             method: 'post',
-        //             data:{
-        //                 sch: sch,
-        //                 _token: _token
-        //             },
-        //             success: function(data){
-        //                 console.log(data)
-        //                 html = ''
-        //                 data.map((item, index) => {
-        //                     html += '<tr>';
-        //                         html += '<td class="text-center">' + item.number + '</td>';
-        //                         html += '<td><div class="progress" style="height: 19px; font-size: .9rem"><div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: ' + item.ortalama + '%" aria-valuenow="' + item.ortalama + '" aria-valuemin="0" aria-valuemax="100"> % ' + item.ortalama + ' </div></div></td>'
-        //                         html += '<td class="text-center text-success">% ' + item.ortalama + '</td>';
-        //                     html += '</tr>'   
-        //                 })
-        //                 $('#statable > tbody').html(html);
-        //                 $('#statable').css('display', '')
-        //                 $('#statCard').css('display', '')
-        //             }
-        //         })
-        //     }
-        //     else{
-        //         Do.fire({
-        //             icon: 'warning',
-        //             title: 'Lütfen ders seçin',   
-        //         })
-        //     }
-        // })
-
+        $(document).on('click', '#getStats', function(){
+            let sch = $('#dersler').val()
+            if(sch != 0){
+                console.log(sch)
+                $.ajax({
+                    url: "{{ route('getStats') }}",
+                    method: 'post',
+                    data:{
+                        sch: sch,
+                        _token: _token
+                    },
+                    success: function(data){
+                        console.log(data)
+                        html = ''
+                        data.map((item, index) => {
+                            html += '<tr>';
+                                html += '<td class="text-center">' + item.number + '</td>';
+                                html += '<td><div class="progress" style="height: 19px; font-size: .9rem"><div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: ' + item.ortalama + '%" aria-valuenow="' + item.ortalama + '" aria-valuemin="0" aria-valuemax="100"> % ' + item.ortalama + ' </div></div></td>'
+                                html += '<td class="text-center text-success">% ' + item.ortalama + '</td>';
+                            html += '</tr>'   
+                        })
+                        $('#statable > tbody').html(html);
+                        $('#statable').css('display', '')
+                        $('#statCard').css('display', '')
+                    }
+                })
+            }
+            else{
+                Do.fire({
+                    icon: 'warning',
+                    title: 'Lütfen ders seçin',   
+                })
+            }
+        })
+        
     })
 </script>

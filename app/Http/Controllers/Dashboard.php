@@ -79,8 +79,14 @@ class Dashboard extends Controller
                     'status' => $todayRolls,
                 ];
             } 
+            $lessonsAll = DB::table('schedules')
+                        ->join('lessons', 'schedules.lesson', '=', 'lessons.id')
+                        ->select(DB::raw('schedules.lesson,concat(schedules.class, "/", schedules.branch) as class, lessons.name, schedules.id'))
+                        ->where('teacher', $user->id)
+                        ->orderBy('class', 'asc')
+                        ->get();
             // dd($data);
-            return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay);
+            return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay)->with('lessonsAll', $lessonsAll);
         }
         elseif($user->type == 0){
             return 'Hem Yönetici Hem Öğretmen Sayfası';
@@ -132,26 +138,27 @@ class Dashboard extends Controller
                 'scheduleId' => $scheduleId,
                 'status' => $todayRolls,
             ];
-
+            
             $lessonsAll = DB::table('schedules')
-                    ->join('lessons', 'schedules.lesson', '=', 'lessons.id')
-                    ->select(DB::raw('schedules.lesson,concat(schedules.class, "/", schedules.branch) as class, lessons.name, schedules.id'))
-                    // ->select('schedules.lesson', 'schedules.class', 'schedules.branch', 'lessons.name')
-                    ->where('teacher', $user->id)
-                    ->orderBy('class', 'asc')
-                    ->get();
+                        ->join('lessons', 'schedules.lesson', '=', 'lessons.id')
+                        ->select(DB::raw('schedules.lesson,concat(schedules.class, "/", schedules.branch) as class, lessons.name, schedules.id'))
+                        ->where('teacher', $user->id)
+                        ->orderBy('class', 'asc')
+                        ->get();
         } 
-        // dd($lessonsAll);
-        return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay)->with('lessonsAll', $lessonsAll);
+        // dd($data);
+        return view('home')->with('user', $user->name)->with('data', $data)->with('day', $frontDay)->with('lessonsAll', $lessonsAll);;
     }
-
+    
     public function getStats(Request $request){
         $user = Auth::user();
         if($request->ajax()){
             // return $request;
+            $sch = $request->sch;
             $stats = DB::table('rollcalls')
-                        ->select(DB::raw('number, round((sum(state) / (select count(distinct created_at) from rollcalls where schedule = 465)) * 100) as ortalama'))
+                        ->select(DB::raw("number, round((sum(state) / (select count(distinct created_at) from rollcalls where schedule = '$sch')) * 100) as ortalama"))
                         ->where('schedule', $request->sch)
+                        
                         ->groupBy('number')
                         ->get();
             return $stats;
@@ -454,14 +461,12 @@ class Dashboard extends Controller
         // $data = [
         //     'name' => $request->name,
         //     'type' => 2,
-        //     'branch' => $request->branch, 
+        //     'branch' => $request->branch,
         //     'email' => $request->email,
         //     'password' => Hash::make($request->password),
         // ];
         // return $request->branch;
-        
         $isExist = User::where('email', $request->email)->first();
-        
         if($isExist === null){
             return DB::table('users')->insert([
                 'name' => $request->name,
@@ -688,6 +693,7 @@ class Dashboard extends Controller
 
     public function setRollCall(Request $request){
         if($request->ajax()){
+            // return $request;
             $call = $request->roll;
             $info = explode(' / ', $request->class);
             $class = $info[0]; $branch = $info[1];
@@ -710,7 +716,7 @@ class Dashboard extends Controller
             // kendime not: eğer bu sınıf bu şubeden, bu "schedule id" den bugün için kayıt var ise insert değil update yapacaksın!
             // ders ve öğretmeni ekle
             $isSetToday = DB::table('rollcalls')->where('class', $class)->where('branch', $branch)->where('schedule', $request->scheduleId)->whereDate('created_at', Carbon::today())->exists();
-            if($isSetToday != null){ // bugün için bu derse kayıt girilmiş ise
+            if($isSetToday != null){ // bugün için bu derse kayıt girilmiş ise yani UPDATE olayı!!!
                 // update i burada yazacksın
                 // $bir = DB::table('rollcalls')->whereDate('created_at', Carbon::today())->update($data);
                 $todayRolls = DB::table('rollcalls')->select('number')->where('class', $class)->where('branch', $branch)->where('schedule', $request->scheduleId)->whereDate('created_at', Carbon::today())->orderBy('number', 'asc')->get();
