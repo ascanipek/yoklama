@@ -39,6 +39,14 @@
                                   <option value="İNGİLİZCE">İNGİLİZCE</option> 
                                 </select>
                             </div>
+                             <div class="form-group">
+                                <label for="yetki">Kullanıcı Türü</label>
+                                <select class="form-control" id="yetki" required>
+                                  <option value="0">Yetki Seviyesi Seçin</option>
+                                  <option value="2">Öğretmen</option>
+                                  <option value="1">İdareci</option>
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="name">İsim Soyisim</label>
                                 <input class="form-control" type="text" id="name" required>
@@ -99,11 +107,31 @@
                     <div class="form-group">
                         <label for="branchUp">Branş</label>
                         <select class="form-control" id="branchUp" required>
-                          <option value="0">Branş Seçin</option>
-                          <option value="Bilişim Teknolojileri">Bilişim Teknolojileri</option>
-                          <option value="Elektrik Elektronik">Elektrik Elektronik</option>
-                          <option value="RTV">RTV</option>
-                          <option value="Gazetecilik">Gazetecilik</option>  
+                            <option value="0">Branş Seçin</option>
+                            <option value="BİLİŞİM TEKNOLOJİLERİ">BİLİŞİM TEKNOLOJİLERİ</option>
+                            <option value="ELEKTRİK ELEKTRONİK">ELEKTRİK ELEKTRONİK</option>
+                            <option value="RTV">RTV</option>
+                            <option value="GAZETECİLİK">GAZETECİLİK</option> 
+                            <option value="BEDEN EĞİTİMİ">BEDEN EĞİTİMİ</option>
+                            <option value="BİYOLOJİ">BİYOLOJİ</option> 
+                            <option value="COĞRAFYA">COĞRAFYA</option> 
+                            <option value="DİN KÜLTÜRÜ VE AHLAK BİLGİSİ">DİN KÜLTÜRÜ VE AHLAK BİLGİSİ</option> 
+                            <option value="FELSEFE">FELSEFE</option> 
+                            <option value="FİZİK">FİZİK</option> 
+                            <option value="GÖRSEL SANATLAR">GÖRSEL SANATLAR</option> 
+                            <option value="KİMYA">KİMYA</option> 
+                            <option value="MATEMATİK">MATEMATİK</option> 
+                            <option value="EDEBİYAT">EDEBİYAT</option> 
+                            <option value="TARİH">TARİH</option> 
+                            <option value="İNGİLİZCE">İNGİLİZCE</option> 
+                        </select>
+                    </div>
+                     <div class="form-group">
+                        <label for="yetkiUp">Kullanıcı Türü</label>
+                        <select class="form-control" id="yetkiUp" required>
+                          <option value="0">Yetki Seviyesi Seçin</option>
+                          <option value="2">Öğretmen</option>
+                          <option value="1">İdareci</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -139,7 +167,7 @@
 @section('js')
   <script src="//code.jquery.com/jquery-1.11.1.js"></script>
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-  <script src="{{ asset('vendor/bootstrap/js/bootstrap.js') }}"></script>
+  {{-- <script src="{{ asset('vendor/bootstrap/js/bootstrap.js') }}"></script> --}}
   <script src="/vendor/sweetalert2/sweetalert2.min.js"></script>
   <script src="/vendor/sweetalert2/sweetalert2.all.min.js"></script>
 
@@ -189,6 +217,7 @@
             let name = $('#name').val().trim()
             let branch = $('#branch').val().trim()
             let email = $('#email').val().trim()
+            let yetki = $('#yetki').val().trim()
             let password = $('#password').val()
             if(branch == 0){
                 Do.fire({
@@ -196,6 +225,14 @@
                         position: 'center',
                         icon: 'warning',
                         text: 'Branş seçilmeli!',   
+                })
+            }
+            else if(yetki == 0){
+                Do.fire({
+                        toast: false,
+                        position: 'center',
+                        icon: 'warning',
+                        text: 'Kullanıcı Türü seçilmeli!',   
                 })
             }
             else if(password.length < 6){
@@ -214,7 +251,7 @@
                         name: name,
                         branch: branch,
                         email: email,
-                        yetki: 2, // for std user: 2, for admin user: 1,
+                        yetki: yetki,
                         password: password,
                         _token: _token
                     },
@@ -223,7 +260,7 @@
                             console.log(data)
                             Do.fire({
                                 toast: false,
-                                position: 'center', 
+                                position: 'center',
                                 icon: 'warning',
                                 text: 'E-Posta adresi veritabanında kayıtlı!',   
                             })
@@ -276,12 +313,14 @@
             //$(this).attr('data-id')
             $('#nameUp').val($(this).attr('data-name'))
             $('#branchUp').val($(this).attr('data-branch'))
+            $('#yetkiUp').val($(this).attr('data-yetki'))
             $('#emailUp').val($(this).attr('data-email'))
             let id = $(this).attr('data-id')
             $('#update').on('submit', function(e){
                 e.preventDefault()
                 let name = $('#nameUp').val().trim()
                 let branch = $('#branchUp').val().trim()
+                let yetki = $('#yetkiUp').val().trim()
                 let email = $('#emailUp').val().trim()
                 let password = $('#passwordUp').val()
                 if(branch == 0){
@@ -290,6 +329,14 @@
                         position: 'center',
                         icon: 'warning',
                         text: 'Branş seçilmeli!',   
+                    })
+                }
+                else if(yetki == 0){
+                    Do.fire({
+                        toast: false,
+                        position: 'center',
+                        icon: 'warning',
+                        text: 'Kullanıcı türü seçilmeli!',   
                     })
                 }
                 else if(password.length < 6){
@@ -308,6 +355,7 @@
                             id: id,
                             name: name,
                             branch: branch,
+                            yetki: yetki,
                             email: email,
                             password: password,
                             _token: _token
@@ -342,7 +390,7 @@
                             html += '<td>' + data[count].name + '</td>';
                             html += '<td>'+ data[count].email + '</td>';
                             html += '<td>'+ data[count].branch + '</td>';
-                            html += '<td> <button class="edit btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" data-name="' + data[count].name + '" data-email="' + data[count].email + '" data-branch="' + data[count].branch + '" data-id="' + data[count].id +'">Düzenle</button></td>';
+                            html += '<td> <button class="edit btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" data-name="' + data[count].name + '" data-email="' + data[count].email + '" data-branch="' + data[count].branch + '" data-id="' + data[count].id +'" data-yetki="' + data[count].type + '">Düzenle</button></td>';
                             html += '<td> <button class="delete btn btn-danger btn-sm" data-id="' + data[count].id +'">X</button></td>';
                         html += '</tr>'    
                     }
